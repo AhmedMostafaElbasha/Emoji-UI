@@ -24,13 +24,27 @@ class _BurgerPageState extends State<BurgerPage> {
     return Scaffold(
       body: ListView(
         children: [
-          buildCustomAppBar(),
+          _buildCustomAppBar(),
+          SizedBox(height: 15.0),
+          _buildMainHeading('SUPER'),
+          _buildMainHeading(widget.foodName.toUpperCase()),
+          SizedBox(height: 40.0),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              _buildFoodImageDisplay(
+                imagePath: widget.imagePath,
+                heroTag: widget.heroTag,
+              ),
+              SizedBox(width: 15.0),
+            ],
+          ),
         ],
       ),
     );
   }
 
-  Widget buildCustomAppBar() {
+  Widget _buildCustomAppBar() {
     return Padding(
       padding: EdgeInsets.all(15.0),
       child: Row(
@@ -94,6 +108,38 @@ class _BurgerPageState extends State<BurgerPage> {
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildMainHeading(String value) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 15),
+      child: Text(
+        value,
+        style: GoogleFonts.notoSans(
+          fontWeight: FontWeight.w800,
+          fontSize: 27.0,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFoodImageDisplay({
+    @required String imagePath,
+    @required String heroTag,
+  }) {
+    return Hero(
+      tag: heroTag,
+      child: Container(
+        height: 200.0,
+        width: 200.0,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(imagePath),
+            fit: BoxFit.cover,
+          ),
+        ),
       ),
     );
   }
