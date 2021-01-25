@@ -213,4 +213,19 @@ class _BurgerPageState extends State<BurgerPage> {
       ),
     );
   }
+
+  Widget _buildQuantityControlBar() {
+    return Container(
+      height: null,
+      width: null,
+      decoration: BoxDecoration(
+        color: null,
+        borderRadius: BorderRadius.only(
+          topLeft: null,
+          bottomLeft: null,
+        ),
+      ),
+      child: null,
+    );
+  }
 }
