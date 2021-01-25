@@ -19,6 +19,8 @@ class BurgerPage extends StatefulWidget {
 }
 
 class _BurgerPageState extends State<BurgerPage> {
+  var netPrice = 0.0;
+  var quantity = 1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,6 +39,19 @@ class _BurgerPageState extends State<BurgerPage> {
                 heroTag: widget.heroTag,
               ),
               SizedBox(width: 15.0),
+              Column(
+                children: [
+                  _buildCustomIconButton(Icons.favorite_border),
+                  _buildCustomIconButton(Icons.restore),
+                ],
+              ),
+            ],
+          ),
+          SizedBox(height: 10.0),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _buildOrderTotalPriceDisplay(widget.pricePerItem),
             ],
           ),
         ],
@@ -138,6 +153,61 @@ class _BurgerPageState extends State<BurgerPage> {
           image: DecorationImage(
             image: AssetImage(imagePath),
             fit: BoxFit.cover,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCustomIconButton(IconData icon) {
+    return Stack(
+      children: [
+        Container(
+          height: 45.0,
+          width: 40.0,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15.0),
+            boxShadow: [
+              BoxShadow(
+                color: Color(0xFFFE7D6A).withOpacity(0.1),
+                blurRadius: 6.0,
+                spreadRadius: 6.0,
+                offset: Offset(5.0, 11.0),
+              ),
+            ],
+          ),
+        ),
+        Container(
+          height: 50.0,
+          width: 50.0,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15.0),
+            color: Colors.white,
+          ),
+          child: Center(
+            child: Icon(
+              icon,
+              color: Color(0xFFFE7D6A),
+              size: 25.0,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildOrderTotalPriceDisplay(String pricePerItem) {
+    return Container(
+      height: 70.0,
+      width: 125.0,
+      color: Colors.white,
+      child: Center(
+        child: Text(
+          '\$${(int.parse(pricePerItem) * quantity).toString()}',
+          style: GoogleFonts.notoSans(
+            fontSize: 40.0,
+            color: Color(0xFF5E6166),
+            fontWeight: FontWeight.w500,
           ),
         ),
       ),
