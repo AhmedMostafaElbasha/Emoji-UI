@@ -52,8 +52,11 @@ class _BurgerPageState extends State<BurgerPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               _buildOrderTotalPriceDisplay(widget.pricePerItem),
+              _buildQuantityControlBar(),
             ],
           ),
+          _buildSubHeadingText('FEATURED'),
+          _buildFeaturedMealsList()
         ],
       ),
     );
@@ -199,7 +202,7 @@ class _BurgerPageState extends State<BurgerPage> {
   Widget _buildOrderTotalPriceDisplay(String pricePerItem) {
     return Container(
       height: 70.0,
-      width: 125.0,
+      width: 85.0,
       color: Colors.white,
       child: Center(
         child: Text(
@@ -216,16 +219,203 @@ class _BurgerPageState extends State<BurgerPage> {
 
   Widget _buildQuantityControlBar() {
     return Container(
-      height: null,
-      width: null,
+      height: 60.0,
+      width: 150.0,
       decoration: BoxDecoration(
-        color: null,
+        color: Color(0xFFFE7D6A),
         borderRadius: BorderRadius.only(
-          topLeft: null,
-          bottomLeft: null,
+          topLeft: Radius.circular(10.0),
+          bottomLeft: Radius.circular(10.0),
         ),
       ),
-      child: null,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Container(
+            height: 40.0,
+            width: 105.0,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10.0),
+              color: Colors.white,
+            ),
+            child: Row(
+              children: [
+                _buildQuantityControlButton(Icons.remove, 'MINUS'),
+                _buildQuantityText(),
+                _buildQuantityControlButton(Icons.add, 'PLUS'),
+                Text(
+                  'Add to cart',
+                  style: GoogleFonts.notoSans(
+                    fontSize: 15.0,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void adjustQuantity(String value) {
+    switch (value) {
+      case 'PLUS':
+        setState(() {
+          quantity += 1;
+        });
+        return;
+      case 'MINUS':
+        setState(() {
+          if (quantity != 0) {
+            quantity -= 1;
+          }
+        });
+        return;
+    }
+  }
+
+  Widget _buildQuantityControlButton(IconData icon, String expression) {
+    return IconButton(
+      iconSize: 17.0,
+      icon: Icon(
+        icon,
+        color: Color(0xFFFE7D6A),
+      ),
+      onPressed: () {
+        adjustQuantity(expression);
+      },
+    );
+  }
+
+  Widget _buildQuantityText() {
+    return Text(
+      quantity.toString(),
+      style: GoogleFonts.notoSans(
+        fontSize: 14.0,
+        color: Color(0xFFFE7D6A),
+        fontWeight: FontWeight.w400,
+      ),
+    );
+  }
+
+  Widget _buildSubHeadingText(String value) {
+    return Padding(
+      padding: const EdgeInsets.all(15.0),
+      child: Text(
+        value,
+        style: GoogleFonts.notoSans(
+          fontSize: 16.0,
+          fontWeight: FontWeight.w700,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFeaturedMealsList() {
+    return Container(
+      height: 225.0,
+      width: MediaQuery.of(context).size.width,
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Column(
+              children: [
+                _buildListItem(
+                  'assets/cheese.png',
+                  'Sweet cheese',
+                  '11',
+                  Color(0xFFFBD6F5),
+                ),
+                SizedBox(height: 15.0),
+                _buildListItem(
+                  'assets/popcorn.png',
+                  'Sweet popcorn',
+                  '11',
+                  Color(0xFFFBD6F5),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Column(
+              children: [
+                _buildListItem(
+                  'assets/taco.png',
+                  'Tacos',
+                  '6',
+                  Color(0xFFC2E3FE),
+                ),
+                SizedBox(height: 15.0),
+                _buildListItem(
+                  'assets/sandwich.png',
+                  'Sandwich',
+                  '6',
+                  Color(0xFFD7FADA),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  _buildListItem(
+      String imagePath, String foodName, String price, Color backgroundColor) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Container(
+          width: null,
+          child: Row(
+            children: [
+              Container(
+                height: 75.0,
+                width: 75.0,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(7.0),
+                  color: backgroundColor,
+                ),
+                child: Center(
+                  child: Image.asset(
+                    imagePath,
+                    height: 50.0,
+                    width: 50.0,
+                  ),
+                ),
+              ),
+              SizedBox(width: 20.0),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    foodName,
+                    style: GoogleFonts.notoSans(
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  Text(
+                    '\$$price',
+                    style: GoogleFonts.lato(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w600,
+                      textStyle: TextStyle(
+                        color: Color(0xFFF68D7F),
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
